@@ -8,7 +8,6 @@ cloudinary.config({
   secure: true
 });
 
-
 // req.files.file.path
 exports.upload = async (req, res) => {
   let result = await cloudinary.uploader.upload(req.body.image, {

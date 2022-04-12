@@ -1,9 +1,7 @@
-
+import React, { useState } from "react";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-
-import React, { useState } from "react";
 import { Menu } from "antd";
 import {
   AppstoreOutlined,
@@ -11,9 +9,13 @@ import {
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons";
 import { Link ,useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Search from "../forms/Search";
+import { PresetColorTypes } from "antd/lib/_util/colors";
+
 
 const { SubMenu, Item } = Menu;
 
@@ -40,9 +42,18 @@ const Header = () => {
   };
 
   return (
-    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+    <nav className="bg-dark">
+     <Link style={{color: "white", fontWeight: "bold", padding: 10 ,fontSize: 30}} to="/">TechMall</Link>
+    <Menu onClick={handleClick} className="navbar navbar-dark bg-dark" selectedKeys={[current]} mode="horizontal" theme="dark">
+    
+  
+
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home</Link>
+      </Item>
+
+      <Item key="shop" icon={<ShoppingOutlined />}>
+        <Link to="/shop">Shop</Link>
       </Item>
 
       {!user && (
@@ -80,7 +91,12 @@ const Header = () => {
           </Item>
         </SubMenu>
       )}
+      <span className="float-right p-1">
+       <tab/> <Search />
+      </span>
     </Menu>
+    </nav>
+ 
   );
 };
 

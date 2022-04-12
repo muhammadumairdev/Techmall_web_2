@@ -1,11 +1,9 @@
 import App from './App';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-
-import serviceWorker from './reportWebVitals';
+import * as serviceWorker from "./serviceWorker";
 
 import 'antd/dist/antd.min.css';
 import { BrowserRouter as Router } from 'react-router-dom';

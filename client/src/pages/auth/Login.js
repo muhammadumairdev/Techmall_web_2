@@ -16,16 +16,27 @@ const Login = ({  }) => {
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    if (user && user.token) navigate("/");
-  }, [user]);
+    let intended = window.location.state;
+    if (intended) {
+      return;
+    } else {
+      if (user && user.token) navigate("/");
+    }
+  }, [user, window]);
 
   let dispatch = useDispatch();
 
   const roleBasedRedirect = (res) => {
-    if (res.data.role === "admin") {
-      navigate("/admin/dashboard");
+    // check if intended
+    let intended = window.location.state;
+    if (intended) {
+      navigate(intended.from);
     } else {
-      navigate("/user/history");
+      if (res.data.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/user/history");
+      }
     }
   };
 

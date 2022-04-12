@@ -25,7 +25,11 @@ import SubCreate from "./pages/admin/sub/SubCreate";
 import SubUpdate from "./pages/admin/sub/SubUpdate";
 import ProductCreate from "./pages/admin/product/ProductCreate";
 import AllProducts from "./pages/admin/product/AllProducts";
-
+import ProductUpdate from "./pages/admin/product/ProductUpdate";
+import Product from "./pages/Product";
+import CategoryHome from "./pages/category/CategoryHome";
+import SubHome from "./pages/sub/SubHome";
+import Shop from "./pages/Shop";
 
 import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -83,12 +87,17 @@ const App = () => {
             <Route path='/register/complete'element={<RegisterComplete />}/>
             <Route path='/login' element={<Login />}/>
             <Route path="/forgot/password" element={ <ForgotPassword/> } />
+            
+          
             <Route element={<InnerContent />}>
 
             {user && user.role === "subscriber" && <Route path="/user/history" element={<History />} />}
             {user && user.role === "subscriber" && <Route path="/user/password" element={<Password />} />}
             {user && user.role === "subscriber" && <Route path="/user/wishlist" element={<Wishlist />} />}
-            
+            <Route exact path="/product/:slug" element={ <Product/> } />
+            <Route exact path="/category/:slug" element={<CategoryHome/>} />
+            <Route exact path="/sub/:slug" element={<SubHome/>} />
+            <Route path="/shop" element={<Shop/>} />
             {user && user.role === "admin" && <Route path="/admin/dashboard" element={<AdminDashboard />} />}
             {user && user.role === "admin" && <Route path="/admin/category" element={<CategoryCreate />} />}
             {user && user.role === "admin" && <Route path="/admin/category/:slug" element={<CategoryUpdate />} />}
@@ -96,9 +105,11 @@ const App = () => {
             {user && user.role === "admin" && <Route path="/admin/sub/:slug" element={<SubUpdate />} />}
             {user && user.role === "admin" && <Route path="/admin/product" element={<ProductCreate />} />}
             {user && user.role === "admin" && <Route path="/admin/products" element={<AllProducts />} />}
-            
+            {user && user.role === "admin" && <Route path="/admin/product/:slug" element={<ProductUpdate />} />}
             </Route>
+            <Route path="/product/:slug" element={ <Product/> } />
             <Route path="/*" element={!user? <LoadingToRedirect />: "/*"} />
+            
           </Routes>
       </div>
     </>
