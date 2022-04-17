@@ -4,6 +4,8 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Route,Routes} from 'react-router-dom';
+import SideDrawer from "./components/drawer/SideDrawer";
+
 
 import InnerContent from "./components/nav/InnerContent"
 import Login from './pages/auth/Login';
@@ -30,6 +32,10 @@ import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import SubHome from "./pages/sub/SubHome";
 import Shop from "./pages/Shop";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
+import Payment from "./pages/Payment";
 
 import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -74,7 +80,7 @@ const App = () => {
     <>
     
       <Header />
-      
+      <SideDrawer />
       <ToastContainer />
       
       <div>
@@ -92,12 +98,22 @@ const App = () => {
             <Route element={<InnerContent />}>
 
             {user && user.role === "subscriber" && <Route path="/user/history" element={<History />} />}
-            {user && user.role === "subscriber" && <Route path="/user/password" element={<Password />} />}
+            <Route path="/user/password" element={<Password />} />
             {user && user.role === "subscriber" && <Route path="/user/wishlist" element={<Wishlist />} />}
             <Route exact path="/product/:slug" element={ <Product/> } />
             <Route exact path="/category/:slug" element={<CategoryHome/>} />
             <Route exact path="/sub/:slug" element={<SubHome/>} />
             <Route path="/shop" element={<Shop/>} />
+            <Route exact path="/cart" element={<Cart/>} />
+
+            
+     
+
+            {user && user.role === "subscriber" && <Route path="/payment" element={<Payment />} />}
+            {user && user.role === "subscriber" && <Route path="/checkout" element={<Checkout />} />}
+
+
+            {user && user.role === "admin" && <Route path="/admin/coupon" element={<CreateCouponPage />} />}
             {user && user.role === "admin" && <Route path="/admin/dashboard" element={<AdminDashboard />} />}
             {user && user.role === "admin" && <Route path="/admin/category" element={<CategoryCreate />} />}
             {user && user.role === "admin" && <Route path="/admin/category/:slug" element={<CategoryUpdate />} />}

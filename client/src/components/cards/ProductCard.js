@@ -1,14 +1,21 @@
-import React from "react";
-import { Card } from "antd";
+import React, { useState } from "react";
+import { Card, Tooltip } from "antd";
 import { EyeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import laptop from "../../images/laptop.png";
 import { Link } from "react-router-dom";
 import { showAverage } from "../../functions/rating";
 import _ from "lodash";
+import { useSelector, useDispatch } from "react-redux";
 
 const { Meta } = Card;
 
 const ProductCard = ({ product }) => {
+  const [tooltip, setTooltip] = useState("Click to add");
+
+  // redux
+  const { user, cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
+
   const handleAddToCart = () => {
     // create cart array
     let cart = [];
@@ -27,6 +34,19 @@ const ProductCard = ({ product }) => {
       // save to local storage
       // console.log('unique', unique)
       localStorage.setItem("cart", JSON.stringify(unique));
+      // show tooltip
+      setTooltip("Added");
+
+      // add to reeux state
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: unique,
+      });
+      // show cart items in side drawer
+      dispatch({
+        type: "SET_VISIBLE",
+        payload: true,
+      });
     }
   };
 
@@ -44,7 +64,7 @@ const ProductCard = ({ product }) => {
         cover={
           <img
             src={images && images.length ? images[0].url : laptop}
-            style={{ height: "150px", objectFit: "fill" }}
+            style={{ height: "170px", objectFit: "scale-down" }}
             className="p-1"
           />
         }
@@ -52,13 +72,16 @@ const ProductCard = ({ product }) => {
           <Link to={`/product/${slug}`}>
             <EyeOutlined className="text-warning" /> <br /> View Product
           </Link>,
-          <a onClick={handleAddToCart}>
-            <ShoppingCartOutlined className="text-danger" /> <br /> Add to Cart
-          </a>,
+          <Tooltip title={tooltip}>
+            <a onClick={handleAddToCart}>
+              <ShoppingCartOutlined className="text-danger" /> <br /> Add to
+              Cart
+            </a>
+          </Tooltip>,
         ]}
       >
         <Meta
-          title={`${title} - $${price}`}
+          title={`${title} - PKR ${price}`}
           description={`${description && description.substring(0, 40)}...`}
         />
       </Card>
