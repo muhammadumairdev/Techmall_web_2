@@ -6,7 +6,7 @@ import { getRelated } from "../functions/product";
 import ProductCard from "../components/cards/ProductCard";
 import {useParams} from 'react-router-dom';
 
-const Product = () => {
+const Product = ({ match }) => {
   const [product, setProduct] = useState({});
   const [related, setRelated] = useState([]);
   const [star, setStar] = useState(0);

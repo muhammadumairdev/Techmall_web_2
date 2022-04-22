@@ -98,7 +98,7 @@ const App = () => {
             <Route element={<InnerContent />}>
 
             {user && user.role === "subscriber" && <Route path="/user/history" element={<History />} />}
-            <Route path="/user/password" element={<Password />} />
+            {user && user.role === "subscriber" &&  <Route path="/user/password" element={<Password />} />}
             {user && user.role === "subscriber" && <Route path="/user/wishlist" element={<Wishlist />} />}
             <Route exact path="/product/:slug" element={ <Product/> } />
             <Route exact path="/category/:slug" element={<CategoryHome/>} />
