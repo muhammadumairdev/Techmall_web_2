@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { createPaymentIntent } from "../functions/stripe";
 import { Link } from "react-router-dom";
 import { Card } from "antd";
-import { WalletOutlined, CheckOutlined, SwapOutlined } from "@ant-design/icons";
+import { WalletOutlined, CheckOutlined} from "@ant-design/icons";
 import Laptop from "../images/laptop.png";
+import { createOrder, emptyUserCart } from "../functions/user";
 
-const StripeCheckout = ({ history }) => {
+const StripeCheckout = () => {
   const dispatch = useDispatch();
   const { user, coupon } = useSelector((state) => ({ ...state }));
 
@@ -54,6 +55,24 @@ const StripeCheckout = ({ history }) => {
     } else {
       // here you get result after successful payment
       // create order and save in database for admin to process
+      createOrder(payload, user.token).then((res) => {
+        if (res.data.ok) {
+          // empty cart from local storage
+          if (typeof window !== "undefined") localStorage.removeItem("cart");
+          // empty cart from redux
+          dispatch({
+            type: "ADD_TO_CART",
+            payload: [],
+          });
+          // reset coupon to false
+          dispatch({
+            type: "COUPON_APPLIED",
+            payload: false,
+          });
+          // empty cart from database
+          emptyUserCart(user.token);
+        }
+      });
       // empty user cart from redux store and local storage
       console.log(JSON.stringify(payload, null, 4));
       setError(null);
@@ -92,7 +111,7 @@ const StripeCheckout = ({ history }) => {
       {!succeeded && (
         <div>
           {coupon && totalAfterDiscount !== undefined ? (
-            <p className="alert alert-success">{`Total after discount: $${totalAfterDiscount}`}</p>
+            <p className="alert alert-success">{`Total after discount: PKR-${totalAfterDiscount}`}</p>
           ) : (
             <p className="alert alert-danger">No coupon applied</p>
           )}
@@ -112,12 +131,12 @@ const StripeCheckout = ({ history }) => {
           }
           actions={[
             <>
-              <WalletOutlined className="text-info" /> <br /> Total: PKR- 
-               {cartTotal}
+              <WalletOutlined className="text-info" /> <br /> Total: PKR-
+              {cartTotal}
             </>,
             <>
-              <CheckOutlined className="text-info" /> <br /> Total payable : PKR- 
-               {(payable / 100).toFixed(2)}
+              <CheckOutlined className="text-info" /> <br /> Total payable : PKR-
+              {(payable / 100).toFixed(2)}
             </>,
           ]}
         />

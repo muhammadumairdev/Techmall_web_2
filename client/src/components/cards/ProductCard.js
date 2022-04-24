@@ -50,43 +50,43 @@ const ProductCard = ({ product }) => {
     }
   };
 
-  // destructure
-  const { images, title, description, slug, price } = product;
-  return (
-    <>
-      {product && product.ratings && product.ratings.length > 0 ? (
-        showAverage(product)
-      ) : (
-        <div className="text-center pt-1 pb-3">No rating yet</div>
-      )}
-
-      <Card
-        cover={
-          <img
-            src={images && images.length ? images[0].url : laptop}
-            style={{ height: "170px", objectFit: "scale-down" }}
-            className="p-1"
+    // destructure
+    const { images, title, description, slug, price } = product;
+    return (
+      <>
+        {product && product.ratings && product.ratings.length > 0 ? (
+          showAverage(product)
+        ) : (
+          <div className="text-center pt-1 pb-3">No rating yet</div>
+        )}
+  
+        <Card
+          cover={
+            <img
+              src={images && images.length ? images[0].url : laptop}
+              style={{ height: "170px", objectFit: "scale-down" }}
+              className="p-1"
+            />
+          }
+          actions={[
+            <Link to={`/product/${slug}`}>
+              <EyeOutlined className="text-warning" /> <br /> View Product
+            </Link>,
+            <Tooltip title={tooltip}>
+              <a onClick={handleAddToCart} disabled={product.quantity < 1}>
+                <ShoppingCartOutlined className="text-danger" /> <br />
+                {product.quantity < 1 ? "Out of stock" : "Add to Cart"}
+              </a>
+            </Tooltip>,
+          ]}
+        >
+          <Meta
+            title={`${title} - PKR ${price}`}
+            description={`${description && description.substring(0, 40)}...`}
           />
-        }
-        actions={[
-          <Link to={`/product/${slug}`}>
-            <EyeOutlined className="text-warning" /> <br /> View Product
-          </Link>,
-          <Tooltip title={tooltip}>
-            <a onClick={handleAddToCart}>
-              <ShoppingCartOutlined className="text-danger" /> <br /> Add to
-              Cart
-            </a>
-          </Tooltip>,
-        ]}
-      >
-        <Meta
-          title={`${title} - PKR ${price}`}
-          description={`${description && description.substring(0, 40)}...`}
-        />
-      </Card>
-    </>
-  );
-};
-
-export default ProductCard;
+        </Card>
+      </>
+    );
+  };
+  
+  export default ProductCard;

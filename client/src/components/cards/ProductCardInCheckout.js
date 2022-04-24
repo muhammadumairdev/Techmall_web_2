@@ -25,6 +25,7 @@ const ProductCardInCheckout = ({ p }) => {
       cart.map((product, i) => {
         if (product._id === p._id) {
           cart[i].color = e.target.value;
+          return 0;
         }
       });
 
@@ -54,7 +55,7 @@ const ProductCardInCheckout = ({ p }) => {
       }
 
       cart.map((product, i) => {
-        if (product._id == p._id) {
+        if (product._id === p._id) {
           cart[i].count = count;
         }
       });
