@@ -4,7 +4,7 @@ import { Link ,useNavigate } from "react-router-dom";
 import ProductCardInCheckout from "../components/cards/ProductCardInCheckout";
 import { userCart } from "../functions/user";
 
-const Cart = ({ history }) => {
+const Cart = () => {
   const { cart, user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -72,7 +72,7 @@ const Cart = ({ history }) => {
             </div>
           ))}
           <hr />
-          Total: <b>${getTotal()}</b>
+          Total: <b>PKR {getTotal()}</b>
           <hr />
           {user ? (
             <button

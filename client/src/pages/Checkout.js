@@ -49,7 +49,7 @@ const Checkout = ({ history }) => {
       setTotal(0);
       setTotalAfterDiscount(0);
       setCoupon("");
-      toast.success("Cart is emapty. Continue shopping.");
+      toast.success("Cart is empty. Continue shopping.");
     });
   };
 
@@ -145,11 +145,11 @@ const Checkout = ({ history }) => {
         <hr />
         {showProductSummary()}
         <hr />
-        <p>Cart Total: {total}</p>
+        <p>Cart Total: PKR {total}</p>
 
         {totalAfterDiscount > 0 && (
           <p className="bg-success p-2">
-            Discount Applied: Total Payable: ${totalAfterDiscount}
+            Discount Applied: Total Payable: PKR {totalAfterDiscount}
           </p>
         )}
 
